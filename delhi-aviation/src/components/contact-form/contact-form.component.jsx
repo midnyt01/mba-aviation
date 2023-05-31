@@ -3,6 +3,10 @@ import ContactImgBanner from "../../assets/WhatsApp Image 2023-05-23 at 11.30.18
 import "../home-content/home-content.styled.css";
 import Fade from "react-reveal/Fade";
 import Prospectus from "../../assets/MBA Aviation Delhi.pdf";
+import emailjs from "@emailjs/browser";
+import { useRef } from "react";
+
+
 
 const Default_form_field = {
   Name: "",
@@ -15,6 +19,8 @@ const Default_form_field = {
 };
 
 const ContactForm = () => {
+  const form = useRef();
+
   const [campus, setCampus] = useState(null);
   const [UniOption, setUniOption] = useState([]);
   const [quali, setQuali] = useState(null);
@@ -48,6 +54,18 @@ const ContactForm = () => {
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
+
+    console.log(form.current)
+    emailjs
+      .sendForm("service_mg1yl5p", "template_vm4z6yd",form.current, '1g6YrUPoy-yxB0-Au' )
+      .then(
+        (result) => {
+          console.log(result.text);
+        },
+        (error) => {
+          console.log(error.text);
+        }
+      );
     let alink = document.createElement("a");
     alink.href = Prospectus;
     alink.download = "MBA Aviation Delhi";
@@ -104,7 +122,7 @@ const ContactForm = () => {
           </div>
           <Fade bottom cascade>
             <div className="contact-form-wrapper">
-              <form className="contact-form" onSubmit={handleOnSubmit}>
+              <form className="contact-form" onSubmit={handleOnSubmit} ref={form}>
                 <p>
                   <input
                     placeholder="Enter your name"
@@ -176,20 +194,20 @@ const ContactForm = () => {
                   </select>
                 </p>
                 <p>
-                    <select
-                      required
-                      id="ddlcp"
-                      name="ddlcp"
-                      onChange={handleOnCourseChange}
-                    >
-                      <option value="">Select course</option>
-                      <option value="MBA Logistic">
-                        MBA Aviation Management
-                      </option>
-                      {/* <option value="MBA Logistic">
+                  <select
+                    required
+                    id="ddlcp"
+                    name="ddlcp"
+                    onChange={handleOnCourseChange}
+                  >
+                    <option value="">Select course</option>
+                    <option value="MBA Logistic">
+                      MBA Aviation Management
+                    </option>
+                    {/* <option value="MBA Logistic">
                         MBA Logistic and Supply Chain Management
                       </option> */}
-                    </select>
+                  </select>
                 </p>
                 <p>
                   <input

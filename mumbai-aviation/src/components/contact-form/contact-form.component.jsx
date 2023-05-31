@@ -3,6 +3,7 @@ import ContactImgBanner from "../../assets/contact-banner.jpeg";
 import "../home-content/home-content.styled.css";
 import Fade from "react-reveal/Fade";
 import Prospectus from "../../assets/MBA Aviation - Mumbai.jpg";
+import emailjs from "@emailjs/browser";
 
 const Default_form_field = {
   Name: "",
@@ -48,6 +49,16 @@ const ContactForm = () => {
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
+    emailjs
+      .sendForm("service_mg1yl5p", "template_vm4z6yd",form.current, '1g6YrUPoy-yxB0-Au' )
+      .then(
+        (result) => {
+          console.log(result.text);
+        },
+        (error) => {
+          console.log(error.text);
+        }
+      );
     console.log(formField);
     let alink = document.createElement("a");
     alink.href = Prospectus;
