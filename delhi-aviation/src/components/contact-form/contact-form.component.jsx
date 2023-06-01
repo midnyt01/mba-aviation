@@ -21,6 +21,11 @@ const Default_form_field = {
 const ContactForm = () => {
   const form = useRef();
 
+  const [response, setResponse] = useState({
+    status: false,
+    text: ""
+  });
+
   const [campus, setCampus] = useState(null);
   const [UniOption, setUniOption] = useState([]);
   const [quali, setQuali] = useState(null);
@@ -61,8 +66,22 @@ const ContactForm = () => {
       .then(
         (result) => {
           console.log(result.text);
+          setResponse({
+            status: true,
+            text: 'Thanks for contacting us we will rech out to you soon'
+          })
+          setTimeout(() => {
+            setResponse({
+              status: true,
+              text: ''
+            })
+          }, 2000);
         },
         (error) => {
+           setResponse({
+            status: false,
+            text: error.text
+          })
           console.log(error.text);
         }
       );
@@ -123,6 +142,7 @@ const ContactForm = () => {
           <Fade bottom cascade>
             <div className="contact-form-wrapper">
               <form className="contact-form" onSubmit={handleOnSubmit} ref={form}>
+                <p style={{color: response.status ? 'green' : 'red'}}>{response.text}</p>
                 <p>
                   <input
                     placeholder="Enter your name"
